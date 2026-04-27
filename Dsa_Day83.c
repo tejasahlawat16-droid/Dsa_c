@@ -1,77 +1,56 @@
-/* Problem: Given a sorted array of integers and a target value x, implement the Lower Bound and Upper Bound operations using Binary Search.
-
-Lower Bound: The index of the first element in the array that is greater than or equal to x.
-Upper Bound: The index of the first element in the array that is strictly greater than x.
+/* Problem: Implement Selection Sort - Implement the algorithm.
 
 Input:
-- First line: integer n representing the size of the array
-- Second line: n space-separated sorted integers
-- Third line: integer x (the target value)
+- First line: integer n
+- Second line: n space-separated integers
 
 Output:
-- Print two integers:
-  1) Index of the lower bound of x
-  2) Index of the upper bound of x
+- Print the sorted array or search result
 
 Example:
 Input:
-7
-1 2 4 4 4 5 7
-4
+5
+64 34 25 12 22
 
 Output:
-2 5
-
-Explanation:
-For the given array [1, 2, 4, 4, 4, 5, 7] and x = 4:
-- The lower bound is at index 2, which is the first occurrence of 4.
-- The upper bound is at index 5, which is the first element greater than 4 (i.e., 5).
-Binary Search is used to find both bounds efficiently in O(log n) time.
+12 22 25 34 64
 */
 #include <stdio.h>
-
-// Function to find Lower Bound (first index >= x)
-int lowerBound(int arr[], int n, int x) {
-    int low = 0, high = n;
-    while (low < high) {
-        int mid = low + (high - low) / 2;
-        if (arr[mid] < x)
-            low = mid + 1;
-        else
-            high = mid;
-    }
-    return low;
-}
-
-// Function to find Upper Bound (first index > x)
-int upperBound(int arr[], int n, int x) {
-    int low = 0, high = n;
-    while (low < high) {
-        int mid = low + (high - low) / 2;
-        if (arr[mid] <= x)
-            low = mid + 1;
-        else
-            high = mid;
-    }
-    return low;
-}
 
 int main() {
     int n;
     scanf("%d", &n);
 
     int arr[n];
+
+    // Input array
     for (int i = 0; i < n; i++) {
         scanf("%d", &arr[i]);
     }
 
-    int x;
-    scanf("%d", &x);
+    // Selection Sort Algorithm
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i;
 
-    int lb = lowerBound(arr, n, x);
-    int ub = upperBound(arr, n, x);
+        // Find the minimum element in unsorted part
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
 
-    printf("%d %d\n", lb, ub);
+        // Swap if needed
+        if (minIndex != i) {
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+
+    // Output sorted array
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
 
     return 0;
 }
